@@ -46,7 +46,7 @@ int main(int argc, char **argv)
     out_file_path = std::string(argv[2]);
 
     // Read file
-    infile.open(argv[1], std::ifstream::in);
+    infile.open(in_file_path, std::ifstream::in);
 
     if (infile.is_open())
     {
@@ -112,7 +112,7 @@ int main(int argc, char **argv)
     }
 
     // Write results to output
-    std::string filename = argv[2];
+    std::string filename = out_file_path;
     {
         std::ofstream ostrm(filename);
         for (int i = 0; i < res.size(); i++)
