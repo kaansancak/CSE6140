@@ -32,6 +32,10 @@ int main(int argc, char **argv)
         return -1;
     }
 
+    // Read the arguments
+    in_file_path = std::string(argv[1]);
+    out_file_path = std::string(argv[2]);
+
     // Read file
     infile.open(in_file_path, std::ifstream::in);
 
@@ -85,7 +89,7 @@ int main(int argc, char **argv)
 
             // Call helper for each sample that calculates max cont. sum
             int start = 0;
-            int end = numDays - 1;
+            int end = 0;
 
             //Measure time
             auto startTime = std::chrono::high_resolution_clock::now();
@@ -107,21 +111,25 @@ double findMaxContSum(std::vector<double> v, int &low, int &high)
 {
     double sum = std::numeric_limits<double>::min();
     double tempSum = 0;
+    int tLow = 0;
 
     for (int i = 0; i < v.size(); i++)
     {
-        tempSum = sum + v[i];
-        if (sum < tempSum)
+        tempSum = tempSum + v[i];
+        if (sum <= tempSum)
         {
             sum = tempSum;
+            low = tLow;
             high = i;
         }
-        if (tempSum < 0)
+        if (tempSum <= 0)
         {
             tempSum = 0;
-            low = i;
+            tLow = i + 1;
         }
     }
+
+    std::cout << low << " " << high << std::endl;
 
     return sum;
 }

@@ -107,8 +107,6 @@ int main(int argc, char **argv)
 
         max.time = diff;
         res.push_back(max);
-        std::cout << std::fixed << max.value << "\tIndeces: " << (max.start + 1) << "\t"
-                  << (max.end + 1) << "\t" << diff.count() << std::endl;
     }
 
     // Write results to output
@@ -155,8 +153,8 @@ Interval findMaxContSum(std::vector<double> v, int low, int high)
     Interval middle = findMaxCrossingMiddle(v, low, high);
 
     // Return maximum of three values
-    return left.value > right.value ? (left.value > middle.value ? left : middle)
-                                    : (right.value > middle.value ? right : middle);
+    return left.value >= right.value ? (left.value >= middle.value ? left : middle)
+                                     : (right.value >= middle.value ? right : middle);
 }
 
 Interval findMaxCrossingMiddle(std::vector<double> v, int low, int high)
@@ -170,7 +168,7 @@ Interval findMaxCrossingMiddle(std::vector<double> v, int low, int high)
     // Find mid point
     int mid = (low + high) / 2;
     t.start = mid;
-    t.end = mid;
+    t.end = mid + 1;
 
     // Find left sum
     for (int i = mid; i >= low; i--)
@@ -190,5 +188,6 @@ Interval findMaxCrossingMiddle(std::vector<double> v, int low, int high)
     }
 
     t.value = leftSum + rightSum;
+
     return t;
 }
