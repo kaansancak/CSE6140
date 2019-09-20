@@ -1,0 +1,223 @@
+\documentclass{article}
+
+\usepackage{fullpage}
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage[linesnumbered]{algorithm2e}
+\usepackage{enumerate,url}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true}
+\usepackage{enumitem}
+
+\title{CSE 6140 / CX 4140 Assignment 4\\due Sep 26, 2019 at 11:59pm on Canvas }
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\noindent\fbox{\parbox{\dimexpr\textwidth-2\fboxsep-2\fboxrule\relax}{
+\vspace{2mm}
+
+ \begin{enumerate}
+ \item Please upload a \emph{single} PDF named \texttt{assignment.pdf}
+ 	for all of your answers/report containing:
+ \begin{enumerate}
+ 	\item a typed preamble that contains:
+  	\begin{enumerate}
+   		\item the list of people you worked with people for each question (if applicable),
+ 		\item the sources you used,
+   		\item and if you wish, your impressions about the assignment (what was fun, what was difficult, why...);
+	 \end{enumerate}
+
+ 	\item your solutions for all problems, typed (not handwritten).
+ \end{enumerate}
+
+ \item a single zip file named \texttt{code.zip} containing your code,
+     README, and results for Programming problem. Please do \emph{not} place your report in the zip file. Your report should be in the same pdf file as answers to the first two problems.
+
+ \item Not abiding by the submission instructions will cause you to
+ lose up to all of the points for a problem.
+
+ \item If you do not understand the question, please ask on Piazza or come to office hours. Misunderstanding the question is not a valid excuse for losing points.
+
+ \end{enumerate}
+ }}
+
+
+\section{Divide and Conquer (10 pts)}
+You are given a sorted array $S[1\dots n]$ with $n$ distinct integers, i.e., $S[i] < S[i + 1]$, for all $1 \leq i < n$. Design a divide-and-conquer algorithm to decide whether there exists an index $k$ such
+that $S[k] = k$. Your algorithm should run in $O(\log n)$ time. Please provide a description of your algorithm and the pseudocode.
+
+\section{Greedy and Dynamic Programming (12 pts)}
+Consider the following game. You are given a sequence of $n$ positive numbers
+$(a_1, a_2, ..., a_n)$. Initially, they are all colored black. At each move,
+you choose a black number $a_k$ and color it and its immediate neighbors (if
+any) red (the immediate neighbors are the elements $a_{k-1}$, $a_{k+1}$ ). You
+get $a_k$ points for this move. The game ends when all numbers are colored
+red. The goal is to get as many points as possible.
+
+\begin{enumerate}[label=(\alph*)]
+
+\item Describe a greedy algorithm for this problem. Verify that it does not always maximize the number of points by giving a counter-example. (3 pts)
+
+\item Describe and analyze an efficient dynamic programming algorithm for this problem that runs in O(n) and returns optimal solutions. (9 pts)
+
+\end{enumerate}
+
+
+
+\section{Programming (28 pts)}
+Devan has recently earned \$10,000 in cash by gambling (lucky him!). He
+wants to buy a brand new car. However, he doesn't have enough money yet and
+of course he is wise enough to not take the risk of gambling again. He
+usually takes the bus home while dreaming of his own car. ``My dark gray car,
+you are the most beautiful car in the world'', he imagines.
+
+One day, while day-dreaming, his eyes fell on an advertisement which changed
+his life:
+
+\begin{center}
+\framebox{Do you want money to buy a car? or a home?} \\
+\framebox{Join us today. Tomorrow is too late!} \\
+\framebox{Pool-o-Pale Investment Co. Visit www.pool-o-pale.com.}
+\end{center}
+
+He visits the website as soon as he gets home and reads the rules and
+regulations. He finds that he has to invest his money. They will pay his
+daily interest, a typical banking approach. He then finds a very appealing
+rule:
+
+\begin{center}
+\framebox{The interest rates are known in advance! }
+\end{center}
+
+For example, tomorrow's interest rate is 3.5 \%. This means that tomorrow, the
+bank will pay Devan $0.035 \times 10000$. The interest rate on the day after
+tomorrow is $-2.1 \%$, which means that they will claim $0.021 \times 10000$
+of his money on that day. Devan gets excited about this: he can invest on
+the days with positive interest rates only! ``That's great!'', he thought,
+feeling that he was closer than ever to buying the car. But then, he goes on
+to read the next rule:
+\begin{center}
+\framebox{Every person can join the Pool-o-Pale once!}
+\end{center}
+``What a bad rule!'' he whispered disappointedly. This means that he has to
+join the plan on one given day, and remain so till some later day. Then, he
+will earn money at the rate equal to the summation of the interest rates on
+those days. ``How can I earn  as much money as possible? I wish I knew of an
+algorithm that finds the best investment period for me'', he thinks. That
+night he slept while driving his dark gray car in his dreams.\\
+
+Let's help Devan buy a car! Tomorrow morning, he is going to a branch of
+Pool-o-Pale. The manager will give him a spreadsheet containing the fixed
+interest rates from now until some days later. He has less than ten seconds
+to decide the interval he is going to invest within. You are going to help
+him find an efficient algorithm to accomplish this. You can, because you know
+how to design and analyze efficient algorithms!  \\
+
+Suppose the manager will give him a text file containing on its first line,
+$n$, the total number of days in the plan. Then, at line $i$ he will receive
+a (positive or negative) real number indicating the daily interest rate, say
+$a_i$. If you really want to help him, you have to find the indices $j$ and
+$k$ such that $\sum_{j \le i \le k} a_i$ is maximum. Assume that there exists
+at least one day where the interest rate is positive (otherwise, there is no
+reason why Devan should invest). Remember you have only ten seconds.\\
+
+You, as an algorithm expert, should try and analyze the following proposals:
+\begin{itemize}
+\item A brute-force approach for this problem seems very naive. You can design a
+faster algorithm. Believe in yourself! Implement a \emph{divide-and-conquer}
+approach by splitting the array into two halves. The best solution will either
+be:
+\begin{itemize}
+\item fully contained in the first half
+\item fully contained in the second half
+\item such that its start point is in the first half and its end point in the second half
+\end{itemize}
+The first two cases are handled recursively. The third one is a linear search.
+\item Secondly, you will implement a more clever solution by \emph{dynamic
+programming}: 
+Assume that the days are indexed by the set $I=\{1,...,n\}$. Let $B(j)$ denote
+the maximum sum of interest rates that can be obtained if $j\in I$ is Devan's
+last day of investment. Derive the recurrence relation for $B(j)$. 
+
+\end{itemize}
+You will help Devan by proposing and implementing the two aforementioned algorithms
+(divide-and-conquer and dynamic programming). Your algorithms should take
+inputs and generate outputs as follows.\\
+
+{\bf Input:} The first line contains two numbers. The first one, $n$, is the
+number of days. The second one, $k$, is the number of instances of the problem
+you should solve. Then, the next $k$ lines contain $n$ comma separated values.
+The input files are in \verb=data.zip= with each named \verb=<n>.txt=, e.g. 7.txt and have the form:
+\begin{verbatim}
+7,3
+-1.5,3.4,-3.1,1.7,2.7,-4.8,3.4
+-1.2,3.8,-6.1,9.7,2.8,-5.8,1.4
+-3.5,6.4,-3.1,1.7,1.7,-1.8,3.2
+\end{verbatim}
+
+{\bf Output:} For each algorithm and each input file, you should produce an output
+file with $k$ lines. Each line has four numbers. The first one is the maximum
+value of interest rate Devan will receive. The next two numbers are the
+indices of the the start and end days of optimal investment, and are in the
+range $[1,n]$. The last value is the running time of the corresponding
+algorithm in milliseconds. Values are separated by commas, and non-integer
+values are output with two decimal digits.
+
+\begin{verbatim}
+4.78,2,6,1554.21
+...
+...
+\end{verbatim}
+Your should submit the output for both algorithms corresponding to the input
+files provided. Your outputs should be named as
+\begin{verbatim} <GTusername>_output_<algorithm>_<n>.txt\end{verbatim}
+where \verb=<algorithm>= should be either \verb=dc= (for divide and conquer)
+or \verb=dp= (for dynamic programming). Put all output files in a folder named
+\verb=output=.\\
+
+{\bf Sample data for debugging:} We provide a sample input file with $(n=10,
+k=10)$ in \verb=10.txt=, and the corresponding sample output file in
+\verb=drobinson67_output_dc_10.txt=, inside \verb=sample_input_and_output.zip=. If your algorithms are correct, they will
+have the same values for the first three columns of the sample output file.
+Note that you should not submit your output file for this sample dataset.\\
+
+{\bf Implementation Instructions:}
+Your implementation can be in either Python or C/C++. If you use Python please use a Python 3.x version \footnote{This is also timely, as in the real world Python 2 is officially nearing end-of-life: https://python3statement.org} (e.g. Python 3.5).
+
+We have provided starter files in C++ and Python, for both divide-and-conquer and dynamic programming. {\bf We will call these programs, so do not change the file names, executable names, or command line arguments}. For C/C++ submissions, we will compile through the Makefile. A starter one is provided. 
+
+A penalty may be assessed if your submission fails to compile and/or run. Keep in mind that your submission will be run and graded on the instructors' environment. It is strongly encouraged that your code only uses standard libraries associated with each language--if you have any questions about this, please check with instructors before the deadline.\\
+
+{\bf Deliverables:} You should create a zip file for the programming portion
+of this assignment that includes the following:
+\begin{itemize}
+\item Source for the two algorithms, well structured and commented. 
+\item A \verb=README= A file providing any specific instructions for running your code. For example, information about interpreter/compiler version and/or external libraries used could be helpful for debugging your submission. 
+
+\item A folder named \verb=output= containing the corresponding output of the
+input files provided in. The output should be in the format described in the
+``Output'' section above.
+\end{itemize}
+
+Your report should be part of your \texttt{assignment.pdf}. The report should include:
+\begin{itemize}
+\item A description and pseudocode of your divide and conquer algorithm.
+\item A description and pseudocode of your dynamic programming algorithm.
+\item Time and space complexity analysis of both algorithms.
+\item A single graph with two lines that shows how the average running time of
+your algorithms grows with $n$. For each input size, $n$, average the running
+time over the $k$ instances in the input file for that value of $n$.
+\item Observations about your empirical results that tie back into your time
+and space complexity analysis.
+\item Discussion on how the two algorithms compare with each other in terms of
+the complexity and empirical performance.
+\end{itemize}
+
+\end{document}

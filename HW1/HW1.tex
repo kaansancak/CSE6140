@@ -1,0 +1,61 @@
+\documentclass{article}
+
+\usepackage{fullpage}
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+%\usepackage[]{algorithm2e}
+\usepackage[linesnumbered]{algorithm2e}
+\usepackage{enumerate,url}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true}
+\usepackage{enumitem}
+
+\title{CSE 6140 / CX 4140 Assignment 1\\due Sep 12, 2019 at 6pm on Canvas }
+\author{}
+\date{}
+\begin{document}
+\maketitle
+
+Please type your answers (\LaTeX{} highly recommended) and upload a single PDF named \texttt{assignment.pdf}. If you want to draw a graph by hand you can take a picture of your drawing and insert it to your PDF file. Please make sure that your inserted picture can be clearly read.
+
+
+\section{Simple Complexity (8pt)}
+	\begin{enumerate}[label=\alph*)]
+		\item For each pair of functions $f$ and $g$, write whether $f$ is in $\mathbb{O}(g)$, $\Omega(g)$, or $\Theta(g)$. (5pt)
+		\begin{enumerate}
+			\item $f = (n+1000)^4$, $g = n^4 - 3n^3$
+			\item $f = \log_{1000} n$, $g = \log_2 n$
+			\item $f = n^{1000}$, $g = n^2$
+			\item $f = 2^n$, $g = n!$
+			\item $f = n^n$, $g = n!$
+		\end{enumerate}
+		\item Prove the additivity of big O notation (3pt): \\
+		$f$, $g$ and $h$ are functions of input size $n$. Prove that if $f \in \mathbb{O}(h)$ and $g \in \mathbb{O}(h)$, then $f+g \in \mathbb{O}(h)$. 
+	\end{enumerate}
+
+
+
+\section{Greedy 1 (12pt)}
+You are given $n$ distinct points and one line $l$ on the plane and some constant $r > 0$. Each of the $n$ points is within distance at most $r$ of line $l$ (as measured along the perpendicular). You are to place disks of radius $r$ centered along line $l$ such that every one of the $n$ points lies within at least one disk. Devise a greedy algorithm that runs in $O(n\log n)$ time and uses a minimum number of disks to cover all $n$ points; prove its optimality.
+
+
+\section{Greedy 2 (12pt)}
+You are on a hike along the Appalachian Trail when you happen upon an abandoned mine. Against your better judgment, you venture inside and find a large deposit of various precious minerals. Luckily, you have a bag and a pickaxe with you, but you can't carry everything. Therefore, you must figure out how much of each mineral to take to maximize the value of your bag.
+
+Formally: Given a bag with weight limit $L$, and a list of $n$ minerals, where mineral $i$ has value $v_i$ and weight $w_i$, design a greedy algorithm to maximize the value of items you pack in your bag. (Note: $v_i$ is the value of the entierty of item $i$, so if you decide you only want to take half of item $i$ you only get value $\frac{v_i}{2}$). Prove your algorithm gives the optimal result using an \textbf{exchange argument}.
+
+
+\section{Shortest Path (10pt)}
+Let $G = (V, E)$ be a directed graph with positive edge length. Let $t ∈ V$. Give an algorithm that runs in $O(|V|^2)$ time for finding shortest paths between all pairs of nodes, such that these paths pass through $t$.
+
+
+\section{Minimum Spanning Tree (8pt)}
+Give a counter-example or prove the following statement: Let $G = (V, E)$ be a weighted undirected graph. Let $C$ be one cycle in $G$ and let $e$ be an edge in $C$. If the weight of $e$ is strictly larger than any other edge in $C$, then $e$ is not in any minimum spanning tree of $G$.
+
+
+
+\end{document}
