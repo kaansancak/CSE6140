@@ -12,23 +12,26 @@
 #include <iostream>
 #include <vector>
 #include <limits>
+#include <chrono>
+#include <iomanip>
 
 struct Interval
 {
-    float value;
+    double value;
     int start;
     int end;
+    std::chrono::duration<double> time;
 };
 
-Interval findMaxContSum(std::vector<float> v, int low, int high);
-Interval findMaxCrossingMiddle(std::vector<float> v, int low, int high);
+Interval findMaxContSum(std::vector<double> v, int low, int high);
+Interval findMaxCrossingMiddle(std::vector<double> v, int low, int high);
 
 int main(int argc, char **argv)
 {
     std::string in_file_path, out_file_path;
     std::ifstream infile;
     std::string line, curChar;
-    std::vector<std::vector<float>> v;
+    std::vector<std::vector<double>> v;
 
     int numSamples = -1, numDays = -1;
 
@@ -52,7 +55,7 @@ int main(int argc, char **argv)
             if (!getline(infile, line))
                 break;
 
-            std::vector<float> temp;
+            std::vector<double> temp;
             std::istringstream ss(line);
 
             while (ss)
@@ -70,7 +73,7 @@ int main(int argc, char **argv)
                 }
                 else
                 {
-                    temp.push_back(stof(curChar));
+                    temp.push_back(stod(curChar));
                 }
             }
 
@@ -86,17 +89,38 @@ int main(int argc, char **argv)
         std::cout << "Cannot open input file!" << std::endl;
     }
 
+    std::vector<Interval> res;
     // Find maximum continues sum for each sample
     for (int i = 0; i < numSamples; i++)
     {
         // Call helper for each sample that calculates max cont. sum
         int start = 0;
         int end = numDays - 1;
+
+        //Measure time
+        auto startTime = std::chrono::high_resolution_clock::now();
         Interval max = findMaxContSum(v[i], start, end);
-        std::cout << max.value << " Indeces: " << max.start + 1 << "\t" << max.end + 1 << std::endl;
+        auto endTime = std::chrono::high_resolution_clock::now();
+
+        std::chrono::duration<double> diff =
+            std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime);
+
+        max.time = diff;
+        res.push_back(max);
+        std::cout << std::fixed << max.value << "\tIndeces: " << (max.start + 1) << "\t"
+                  << (max.end + 1) << "\t" << diff.count() << std::endl;
     }
 
     // Write results to output
+    std::string filename = argv[2];
+    {
+        std::ofstream ostrm(filename);
+        for (int i = 0; i < res.size(); i++)
+        {
+            ostrm << std::fixed << std::setprecision(2) << res[i].value << ',' << (res[i].start + 1)
+                  << ',' << (res[i].end + 1) << ',' << res[i].time.count() << '\n';
+        }
+    }
 
     return 0;
 }
@@ -108,7 +132,7 @@ int main(int argc, char **argv)
  * @param start keeps track of start index of maximum sum
  * @param end keeps track of end index of maximum sum
 */
-Interval findMaxContSum(std::vector<float> v, int low, int high)
+Interval findMaxContSum(std::vector<double> v, int low, int high)
 {
     // Base case: 1 element
     if (low == high)
@@ -137,17 +161,16 @@ Interval findMaxContSum(std::vector<float> v, int low, int high)
                                     : (right.value > middle.value ? right : middle);
 }
 
-Interval findMaxCrossingMiddle(std::vector<float> v, int low, int high)
+Interval findMaxCrossingMiddle(std::vector<double> v, int low, int high)
 {
     // Keep track of left and right sum
-    float leftSum = 0;
-    float rightSum = 0;
-    float tempSum = std::numeric_limits<float>::min();
-
+    double leftSum = 0;
+    double rightSum = 0;
+    double tempSum = std::numeric_limits<double>::min();
     Interval t;
+
     // Find mid point
     int mid = (low + high) / 2;
-
     t.start = mid;
     t.end = mid;
 
@@ -159,7 +182,7 @@ Interval findMaxCrossingMiddle(std::vector<float> v, int low, int high)
         leftSum = leftSum >= tempSum ? leftSum : tempSum;
     }
 
-    tempSum = std::numeric_limits<float>::min();
+    tempSum = std::numeric_limits<double>::min();
     // Find right sum
     for (int i = mid + 1; i <= high; i++)
     {
