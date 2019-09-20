@@ -129,8 +129,6 @@ int main(int argc, char **argv)
  * Recursive helper function
  * @param low keeps track of current lowest index
  * @param high keeps track of current highest index
- * @param start keeps track of start index of maximum sum
- * @param end keeps track of end index of maximum sum
 */
 Interval findMaxContSum(std::vector<double> v, int low, int high)
 {

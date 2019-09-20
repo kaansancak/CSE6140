@@ -15,13 +15,7 @@
 #include <chrono>
 #include <iomanip>
 
-struct Interval
-{
-    double value;
-    int start;
-    int end;
-    std::chrono::duration<double> time;
-};
+double findMaxContSum(std::vector<double> v, int &low, int &high);
 
 int main(int argc, char **argv)
 {
@@ -81,7 +75,53 @@ int main(int argc, char **argv)
     {
         std::cout << "Cannot open input file!" << std::endl;
     }
+
     // Write results to output
+    std::string filename = out_file_path;
+    {
+        std::ofstream ostrm(filename);
+        for (int i = 0; i < numSamples; i++)
+        {
+
+            // Call helper for each sample that calculates max cont. sum
+            int start = 0;
+            int end = numDays - 1;
+
+            //Measure time
+            auto startTime = std::chrono::high_resolution_clock::now();
+            double max = findMaxContSum(v[i], start, end);
+            auto endTime = std::chrono::high_resolution_clock::now();
+
+            std::chrono::duration<double> diff =
+                std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime);
+
+            ostrm << std::fixed << std::setprecision(2) << max << ',' << (start + 1)
+                  << ',' << (end + 1) << ',' << diff.count() << '\n';
+        }
+    }
 
     return 0;
+}
+
+double findMaxContSum(std::vector<double> v, int &low, int &high)
+{
+    double sum = std::numeric_limits<double>::min();
+    double tempSum = 0;
+
+    for (int i = 0; i < v.size(); i++)
+    {
+        tempSum = sum + v[i];
+        if (sum < tempSum)
+        {
+            sum = tempSum;
+            high = i;
+        }
+        if (tempSum < 0)
+        {
+            tempSum = 0;
+            low = i;
+        }
+    }
+
+    return sum;
 }
